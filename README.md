@@ -79,11 +79,24 @@ the predicted result shows as follow:
 
 **Windows:**
 
-Configure the environment for libtorch development. [Visual studio](https://allentdan.github.io/2020/03/05/windows-libtorch-configuration/) and [Qt Creator](https://allentdan.github.io/2020/03/05/QT-Creator-Opencv-Libtorch-CUDA-English/) are verified for libtorch1.7x release.
+Configure the environment for libtorch development. [Visual studio](https://allentdan.github.io/2020/03/05/windows-libtorch-configuration/) and [Qt Creator](https://allentdan.github.io/2020/03/05/QT-Creator-Opencv-Libtorch-CUDA-English/) are verified for libtorch1.7+.
 
 **Linux && MacOS:**
 
-Follow the official pytorch c++ tutorials [here](https://pytorch.org/tutorials/advanced/cpp_export.html).
+Install libtorch and opencv. 
+
+For libtorch, follow the official pytorch c++ tutorials [here](https://pytorch.org/tutorials/advanced/cpp_export.html).
+
+For opencv, follow the official opencv install steps [here](https://github.com/opencv/opencv).
+
+If you have already configured them both, congratulations!!! Download the pretrained weight [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/yolo4_tiny.pt) and a demo .pt file [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/detector.pt) into weights. Then just do the following:
+```
+cd build
+cmake ..
+make
+./LibtorchDetection
+```
+
 
 
 ### 🤝 Thanks <a name="thanks"></a>

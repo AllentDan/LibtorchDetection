@@ -104,10 +104,10 @@ void Detector::Train(std::string train_val_path, std::string image_type, int num
 	else {
 		loadPretrained(pretrained_path);
 	}
-	std::string train_label_path = train_val_path + "\\train\\images";
-	std::string train_image_path = train_val_path + "\\train\\labels";
-	std::string val_label_path = train_val_path + "\\val\\images";
-	std::string val_image_path = train_val_path + "\\val\\labels";
+	std::string train_label_path = train_val_path + "/train/images";
+	std::string train_image_path = train_val_path + "/train/labels";
+	std::string val_label_path = train_val_path + "/val/images";
+	std::string val_image_path = train_val_path + "/val/labels";
 
 	std::vector<std::string> list_images_train = {};
 	std::vector<std::string> list_labels_train = {};
@@ -247,7 +247,7 @@ void Detector::LoadWeight(std::string weight_path) {
 }
 
 void show_bbox(cv::Mat image, torch::Tensor bboxes, std::vector<std::string> name_list) {
-	//ÉèÖÃ»æÖÆÎÄ±¾µÄÏà¹Ø²ÎÊı
+	//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½
 	int font_face = cv::FONT_HERSHEY_COMPLEX;
 	double font_scale = 0.4;
 	int thickness = 1;
@@ -258,7 +258,7 @@ void show_bbox(cv::Mat image, torch::Tensor bboxes, std::vector<std::string> nam
 	for (int i = 0; i < bboxes.size(0); i = i + 7)
 	{
 		cv::rectangle(image, cv::Rect(bbox[i + 0], bbox[i + 1], bbox[i + 2] - bbox[i + 0], bbox[i + 3] - bbox[i + 1]), cv::Scalar(0, 0, 255));
-		//½«ÎÄ±¾¿ò¾ÓÖĞ»æÖÆ
+		//ï¿½ï¿½ï¿½Ä±ï¿½ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½ï¿½ï¿½
 		cv::Point origin;
 		origin.x = bbox[i + 0];
 		origin.y = bbox[i + 1] + 8;

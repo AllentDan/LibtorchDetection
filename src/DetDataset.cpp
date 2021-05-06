@@ -5,33 +5,33 @@
 std::vector<BBox> loadXML(std::string xml_path)
 {
 	std::vector<BBox> objects;
-	// XMLÎÄµµ
+	// XMLï¿½Äµï¿½
 	TiXmlDocument doc;
-	// ¼ÓÔØXMLÎÄµµ
+	// ï¿½ï¿½ï¿½ï¿½XMLï¿½Äµï¿½
 	if (!doc.LoadFile(xml_path.c_str()))
 	{
 		std::cerr << doc.ErrorDesc() << std::endl;
 		return objects;
 	}
 
-	// ¶¨Òå¸ù½Úµã±äÁ¿²¢¸³ÖµÎªÎÄµµµÄµÚÒ»¸ö¸ù½Úµã
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÖµÎªï¿½Äµï¿½ï¿½Äµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½
 	TiXmlElement *root = doc.FirstChildElement();
-	// Èç¹ûÃ»ÓÐÕÒµ½¸ù½Úµã,ËµÃ÷ÊÇ¿ÕXMLÎÄµµ»òÕß·ÇXMLÎÄµµ
+	// ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½Úµï¿½,Ëµï¿½ï¿½ï¿½Ç¿ï¿½XMLï¿½Äµï¿½ï¿½ï¿½ï¿½ß·ï¿½XMLï¿½Äµï¿½
 	if (root == NULL)
 	{
 		std::cerr << "Failed to load file: No root element." << std::endl;
-		// ÇåÀíÄÚ´æ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
 		doc.Clear();
 		return objects;
 	}
 
-	// ±éÀú×Ó½Úµã
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ó½Úµï¿½
 	for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement())
 	{
-		// »ñÈ¡ÔªËØÃû
+		// ï¿½ï¿½È¡Ôªï¿½ï¿½ï¿½ï¿½
 		std::string elemName = elem->Value();
 		std::string name = "";
-		// »ñÈ¡ÔªËØÊôÐÔÖµ
+		// ï¿½ï¿½È¡Ôªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 		if (strcmp(elemName.data(), "object") == 0)
 		{
 			for (TiXmlNode *object = elem->FirstChildElement(); object != NULL; object = object->NextSiblingElement())
@@ -62,32 +62,32 @@ std::vector<BBox> loadXML(std::string xml_path)
 		}
 	}
 	//std::cout << xml_path << std::endl;
-	// ÇåÀíÄÚ´æ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
 	doc.Clear();
 	return objects;
 }
 
-//±éÀú¸ÃÄ¿Â¼ÏÂµÄ.xmlÎÄ¼þ£¬²¢ÇÒÕÒµ½¶ÔÓ¦µÄ
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Â¼ï¿½Âµï¿½.xmlï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½
 void load_det_data_from_folder(std::string folder, std::string image_type,
 	std::vector<std::string> &list_images, std::vector<std::string> &list_labels)
 {
 	for_each_file(folder,
-		// filterº¯Êý£¬lambda±í´ïÊ½
+		// filterï¿½ï¿½ï¿½ï¿½ï¿½ï¿½lambdaï¿½ï¿½ï¿½ï¿½Ê½
 		[&](const char*path, const char* name) {
 		auto full_path = std::string(path).append({ file_sepator() }).append(name);
 		std::string lower_name = tolower1(name);
 
-		//ÅÐ¶ÏÊÇ·ñÎªjpegÎÄ¼þ
+		//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îªjpegï¿½Ä¼ï¿½
 		if (end_with(lower_name, ".xml")) {
 			list_labels.push_back(full_path);
 			std::string image_path = replace_all_distinct(full_path, ".xml", image_type);
-			image_path = replace_all_distinct(image_path, "\\labels\\", "\\images\\");
+			image_path = replace_all_distinct(image_path, "/labels/", "/images/");
 			list_images.push_back(image_path);
 		}
-		//ÒòÎªÎÄ¼þÒÑ¾­ÒÑ¾­ÔÚlambda±í´ïÊ½ÖÐ´¦ÀíÁË£¬
-		//²»ÐèÒªfor_each_file·µ»ØÎÄ¼þÁÐ±í£¬ËùÒÔÕâÀï·µ»Øfalse
+		//ï¿½ï¿½Îªï¿½Ä¼ï¿½ï¿½Ñ¾ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½lambdaï¿½ï¿½ï¿½ï¿½Ê½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½Ë£ï¿½
+		//ï¿½ï¿½ï¿½ï¿½Òªfor_each_fileï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï·µï¿½ï¿½false
 		return false;
 	}
-		, true//µÝ¹é×ÓÄ¿Â¼
+		, true//ï¿½Ý¹ï¿½ï¿½ï¿½Ä¿Â¼
 		);
 }
