@@ -100,7 +100,9 @@ make
 
 ### ⏳ ToDo <a name="todo"></a>
 [ ] More detection architectures, mainly one-stage algorithms.
+
 [ ] Data augmentations.
+
 [ ] Training traicks.
 
 ### 🤝 Thanks <a name="thanks"></a>
