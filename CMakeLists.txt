@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-project(opencv_torch)
+project(LibtorchDetection)
 
 SET(CMAKE_BUILD_TYPE "Debug")
 
