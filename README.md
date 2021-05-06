@@ -13,9 +13,10 @@ Visit [Libtorch Tutorials Project](https://github.com/AllentDan/LibtorchTutorial
  1. [Examples](#examples)
  2. [Train your own data](#trainingOwn)
  3. [Installation](#installation)
- 4. [Thanks](#thanks)
- 5. [Citing](#citing)
- 6. [License](#license)
+ 4. [To do list](#todo)
+ 5. [Thanks](#thanks)
+ 6. [Citing](#citing)
+ 7. [License](#license)
 
 ### 💡 Examples <a name="examples"></a>
  1. Download the [VOC](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) image dataset, and split the dataset into train and val parts as follows:
@@ -97,7 +98,10 @@ make
 ./LibtorchDetection
 ```
 
-
+### ⏳ ToDo <a name="todo"></a>
+[ ] More detection architectures, mainly one-stage algorithms.
+[ ] Data augmentations.
+[ ] Training traicks.
 
 ### 🤝 Thanks <a name="thanks"></a>
 This project is under developing. By now, these projects helps a lot.
