@@ -54,7 +54,7 @@ detector.Train("your path to dataset dir",
                     "path to load pretrained yolo4_tiny.pt");
 ```
 
- 3. Predicting test. A detector.pt file is provided in the project [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/detector.pt). Click and download, then you can directly test the detection result through:
+ 3. Predicting test. A detector.pt file is provided in the project [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/detector.pt) (trained on VOC for one epoch, just for testing...). Click and download, then you can directly test the detection result through:
 ```cpp
 cv::Mat image = cv::imread("your path to 2007_005331.jpg");
 Detector detector;
