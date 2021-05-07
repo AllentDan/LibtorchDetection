@@ -56,11 +56,11 @@ detector.Train("your path to dataset dir",
 
  3. Predicting test. A detector.pt file is provided in the project [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/detector.pt). Click and download, then you can directly test the detection result through:
 ```cpp
-cv::Mat image = cv::imread("your path to dataset\\val\\2007_005331.jpg");
-Segmentor<FPN> segmentor;
-segmentor.Initialize(0,416,416,"your path to class name.txt");
-segmentor.LoadWeight("detector.pt"/*the saved .pt path*/);
-segmentor.Predict(image, true,/*show result or not*/, 0.1, /*confidence thresh*/, 0.3/*nms thresh*/);
+cv::Mat image = cv::imread("your path to 2007_005331.jpg");
+Detector detector;
+detector.Initialize(0, 416, 416, "your path to voc_classes.txt");
+detector.LoadWeight("detector.pt"/*the saved .pt path*/);
+detector.Predict(image, true,/*show result or not*/, 0.1, /*confidence thresh*/, 0.3/*nms thresh*/);
 ```
 the predicted result shows as follow:
 
