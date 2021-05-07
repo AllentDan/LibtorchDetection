@@ -247,7 +247,7 @@ void Detector::LoadWeight(std::string weight_path) {
 }
 
 void show_bbox(cv::Mat image, torch::Tensor bboxes, std::vector<std::string> name_list) {
-	//���û����ı�����ز���
+
 	int font_face = cv::FONT_HERSHEY_COMPLEX;
 	double font_scale = 0.4;
 	int thickness = 1;
@@ -258,7 +258,7 @@ void show_bbox(cv::Mat image, torch::Tensor bboxes, std::vector<std::string> nam
 	for (int i = 0; i < bboxes.size(0); i = i + 7)
 	{
 		cv::rectangle(image, cv::Rect(bbox[i + 0], bbox[i + 1], bbox[i + 2] - bbox[i + 0], bbox[i + 3] - bbox[i + 1]), cv::Scalar(0, 0, 255));
-		//���ı�����л���
+
 		cv::Point origin;
 		origin.x = bbox[i + 0];
 		origin.y = bbox[i + 1] + 8;
