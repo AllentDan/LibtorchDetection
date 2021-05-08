@@ -104,18 +104,18 @@ void Detector::Train(std::string train_val_path, std::string image_type, int num
 	else {
 		loadPretrained(pretrained_path);
 	}
-	std::string train_label_path = train_val_path + "/train/images";
-	std::string train_image_path = train_val_path + "/train/labels";
-	std::string val_label_path = train_val_path + "/val/images";
-	std::string val_image_path = train_val_path + "/val/labels";
+	std::string train_image_path = train_val_path + "/train/images";
+	std::string train_label_path = train_val_path + "/train/labels";
+	std::string val_image_path = train_val_path + "/val/images";
+	std::string val_label_path = train_val_path + "/val/labels";
 
 	std::vector<std::string> list_images_train = {};
 	std::vector<std::string> list_labels_train = {};
 	std::vector<std::string> list_images_val = {};
 	std::vector<std::string> list_labels_val = {};
 
-	load_det_data_from_folder(train_image_path, image_type, list_images_train, list_labels_train);
-	load_det_data_from_folder(val_image_path, image_type, list_images_val, list_labels_val);
+	load_det_data_from_folder(train_label_path, image_type, list_images_train, list_labels_train);
+	load_det_data_from_folder(val_label_path, image_type, list_images_val, list_labels_val);
 
 	if (list_images_train.size() < batch_size || list_images_val.size() < batch_size) {
 		std::cout << "Image numbers less than batch size or empty image folder" << std::endl;
