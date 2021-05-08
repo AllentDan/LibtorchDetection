@@ -67,27 +67,23 @@ std::vector<BBox> loadXML(std::string xml_path)
 	return objects;
 }
 
-//������Ŀ¼�µ�.xml�ļ��������ҵ���Ӧ��
+
 void load_det_data_from_folder(std::string folder, std::string image_type,
 	std::vector<std::string> &list_images, std::vector<std::string> &list_labels)
 {
 	for_each_file(folder,
-		// filter������lambda����ʽ
 		[&](const char*path, const char* name) {
 		auto full_path = std::string(path).append({ file_sepator() }).append(name);
 		std::string lower_name = tolower1(name);
 
-		//�ж��Ƿ�Ϊjpeg�ļ�
 		if (end_with(lower_name, ".xml")) {
 			list_labels.push_back(full_path);
 			std::string image_path = replace_all_distinct(full_path, ".xml", image_type);
-			image_path = replace_all_distinct(image_path, "/labels/", "/images/");
+			image_path = replace_all_distinct(image_path, "/labels", "/images");
 			list_images.push_back(image_path);
 		}
-		//��Ϊ�ļ��Ѿ��Ѿ���lambda����ʽ�д����ˣ�
-		//����Ҫfor_each_file�����ļ��б����������ﷵ��false
 		return false;
 	}
-		, true//�ݹ���Ŀ¼
+		, true
 		);
 }
