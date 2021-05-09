@@ -5,33 +5,32 @@
 std::vector<BBox> loadXML(std::string xml_path)
 {
 	std::vector<BBox> objects;
-	// XML�ĵ�
+
 	TiXmlDocument doc;
-	// ����XML�ĵ�
+
 	if (!doc.LoadFile(xml_path.c_str()))
 	{
 		std::cerr << doc.ErrorDesc() << std::endl;
 		return objects;
 	}
 
-	// ������ڵ��������ֵΪ�ĵ��ĵ�һ�����ڵ�
+
 	TiXmlElement *root = doc.FirstChildElement();
-	// ���û���ҵ����ڵ�,˵���ǿ�XML�ĵ����߷�XML�ĵ�
+
 	if (root == NULL)
 	{
 		std::cerr << "Failed to load file: No root element." << std::endl;
-		// �����ڴ�
+
 		doc.Clear();
 		return objects;
 	}
 
-	// �����ӽڵ�
+
 	for (TiXmlElement *elem = root->FirstChildElement(); elem != NULL; elem = elem->NextSiblingElement())
 	{
-		// ��ȡԪ����
 		std::string elemName = elem->Value();
 		std::string name = "";
-		// ��ȡԪ������ֵ
+
 		if (strcmp(elemName.data(), "object") == 0)
 		{
 			for (TiXmlNode *object = elem->FirstChildElement(); object != NULL; object = object->NextSiblingElement())
@@ -62,7 +61,6 @@ std::vector<BBox> loadXML(std::string xml_path)
 		}
 	}
 	//std::cout << xml_path << std::endl;
-	// �����ڴ�
 	doc.Clear();
 	return objects;
 }
@@ -79,7 +77,8 @@ void load_det_data_from_folder(std::string folder, std::string image_type,
 		if (end_with(lower_name, ".xml")) {
 			list_labels.push_back(full_path);
 			std::string image_path = replace_all_distinct(full_path, ".xml", image_type);
-			image_path = replace_all_distinct(image_path, "/labels", "/images");
+			image_path = replace_all_distinct(image_path, "/train/labels", "/train/images");
+			image_path = replace_all_distinct(image_path, "/val/labels", "/val/images");
 			list_images.push_back(image_path);
 		}
 		return false;

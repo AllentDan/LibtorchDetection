@@ -104,9 +104,9 @@ void Detector::Train(std::string train_val_path, std::string image_type, int num
 	else {
 		loadPretrained(pretrained_path);
 	}
-	std::string train_image_path = train_val_path + "/train/images";
+
+	//the datasets must be the required structure
 	std::string train_label_path = train_val_path + "/train/labels";
-	std::string val_image_path = train_val_path + "/val/images";
 	std::string val_label_path = train_val_path + "/val/labels";
 
 	std::vector<std::string> list_images_train = {};

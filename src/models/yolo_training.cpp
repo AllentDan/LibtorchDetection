@@ -251,7 +251,7 @@ std::vector<torch::Tensor> YOLOLossImpl::get_target(std::vector<torch::Tensor> t
 	auto scaled_anchorsType = scaled_anchors.options();
 	//获得先验框
 	int index = vec_index(feature_length, in_w);
-	std::vector<std::vector<int>> anchor_vec_in_vec = { {3, 4, 5} ,{0, 1, 2}};
+	std::vector<std::vector<int>> anchor_vec_in_vec = { {3, 4, 5} ,{1, 2, 3}};
 	std::vector<int> anchor_index = anchor_vec_in_vec[index];
 	int subtract_index = 3*index;//0或者3或者6
 	//创建全是0或者全是1的阵列

@@ -79,6 +79,10 @@ public:
 	};
 };
 
-//遍历该目录下的.xml文件，并且找到对应的图片
+//traverse all the .xml files and obtain the according images
+//train --images
+//      --labels
+//val  --images
+//     --labels
 void load_det_data_from_folder(std::string folder, std::string image_type,
 	std::vector<std::string> &list_images, std::vector<std::string> &list_labels);
