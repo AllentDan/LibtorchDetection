@@ -17,6 +17,7 @@ Visit [Libtorch Tutorials Project](https://github.com/AllentDan/LibtorchTutorial
  5. [Thanks](#thanks)
  6. [Citing](#citing)
  7. [License](#license)
+ 8. [Related repository](#related_repos)
 
 ### 💡 Examples <a name="examples"></a>
  1. Download the [VOC](http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar) image dataset, and split the dataset into train and val parts as follows:
@@ -123,6 +124,14 @@ This project is under developing. By now, these projects helps a lot.
 ```
 
 ### 🛡️ License <a name="license"></a>
-Project is distributed under [MIT License](https://github.com/qubvel/segmentation_models.pytorch/blob/master/LICENSE). Last but not least, **don't forget** your star...
+Project is distributed under [MIT License](https://github.com/qubvel/segmentation_models.pytorch/blob/master/LICENSE). 
+
+## Related repository <a name="related_repos"></a>
+Based on libtorch, I released following repositories:
+- [LibtorchTutorials](https://github.com/AllentDan/LibtorchTutorials)
+- [LibtorchSegmentation](https://github.com/AllentDan/LibtorchSegmentation)
+- [LibtorchDetection](https://github.com/AllentDan/LibtorchDetection)
+
+Last but not least, **don't forget** your star...
 
 Feel free to commit issues or pull requests, contributors wanted.
