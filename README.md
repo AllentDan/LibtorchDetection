@@ -7,7 +7,7 @@ Detection Based on [LibTorch](https://pytorch.org/).**
 
 ### [📚 Libtorch Tutorials 📚](https://github.com/AllentDan/LibtorchTutorials)
 
-Visit [Libtorch Tutorials Project](https://github.com/AllentDan/LibtorchTutorials) if you want to know more about Libtorch Segment library.
+Visit [Libtorch Tutorials Project](https://github.com/AllentDan/LibtorchTutorials) if you want to know more about Libtorch Detection library.
 
 ### 📋 Table of content
  1. [Examples](#examples)
