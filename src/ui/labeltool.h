@@ -37,6 +37,7 @@ private slots:
     void readDir();
     void setAnntationDir();
     void loadLabels();
+    void saveAnnotation();
     void file_list_row_clicked(int num);
     void getNewRect(QRect rect);
     void newLabelRequest(QString newLabel);

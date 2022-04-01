@@ -21,6 +21,7 @@ public:
     qreal getScale() const { return scale; }
     QString annotationDir = "";
     LabelManager *label_manager;
+    AnnotationManager *annotation_manager;
 
 protected:
     void paintEvent(QPaintEvent*) override;
@@ -37,7 +38,6 @@ signals:
     void removeRectRequest(int idx);
 
 private:
-    AnnotationManager *annotation_manager;
     QPixmap current_image;
     qreal scale = 1.0;
     QPoint mousePos;

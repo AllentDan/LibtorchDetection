@@ -23,8 +23,10 @@ public:
     void remove(int idx);
     size_t length() {return objects.size();};
     detObj operator[](int idx) const { return objects[idx]; };
-    void toXml();
-    void fromXml(QString xml_path);
+    void toXml(QString xml_path = "");
+    void fromXml(QString xml_path = "");
+    QString src_img_path = "";
+    QString annotation_dir = "";
 };
 
 #endif // ANNOTATIONMANAGER_H

@@ -42,5 +42,7 @@
         <file>icons/zoom.png</file>
         <file>icons/pinned.svg</file>
         <file>icons/pinned_dirty.svg</file>
+        <file>icons/export.png</file>
+        <file>icons/import.png</file>
     </qresource>
 </RCC>

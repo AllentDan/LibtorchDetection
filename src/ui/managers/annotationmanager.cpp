@@ -1,5 +1,6 @@
 #include "annotationmanager.h"
 #include <QMessageBox>
+#include <QDebug>
 
 AnnotationManager::AnnotationManager()
 {
@@ -70,4 +71,68 @@ void AnnotationManager::fromXml(QString xml_path){
         }
     }
     doc.Clear();
+}
+
+void AnnotationManager::toXml(QString xml_path){
+    qDebug()<< "Start toXml()...";
+    static const char* xml =
+        "<annotation>"
+        "<folder>VOC2012</folder>"
+        "<filename>2007_004275.jpg</filename>"
+        "<source>"
+            "<database>The VOC2007 Database</database>"
+            "<annotation>PASCAL VOC2007</annotation>"
+            "<image>flickr</image>"
+        "</source>"
+        "<size>"
+            "<width>500</width>"
+            "<height>375</height>"
+            "<depth>3</depth>"
+        "</size>"
+        "<segmented>1</segmented>"
+
+        "</annotation>";
+    static const char * char_object =
+        "<object>"
+            "<name>train</name>"
+            "<pose>Unspecified</pose>"
+            "<truncated>1</truncated>"
+            "<difficult>0</difficult>"
+            "<bndbox>"
+                "<xmin>1</xmin>"
+                "<ymin>89</ymin>"
+                "<xmax>441</xmax>"
+                "<ymax>318</ymax>"
+            "</bndbox>"
+        "</object>";
+    QString base_name = "";
+    QPixmap src_img;
+    if(src_img_path != "" && QFile::exists(src_img_path)){
+        src_img = QPixmap(src_img_path);
+        base_name = src_img_path.split("/").last();
+    }
+    if (src_img.isNull()) return;
+    if (xml_path == ""){
+        xml_path = annotation_dir +"/" +base_name.split(".")[0] +".xml";
+    }
+    TiXmlDocument doc;
+    doc.Parse( xml );
+    TiXmlDocument object;
+    object.Parse(char_object);
+    TiXmlElement *root = doc.FirstChildElement();
+    root->FirstChildElement("filename")->FirstChild()->SetValue(base_name.toStdString().c_str());
+    root->FirstChildElement("size")->FirstChildElement("height")->FirstChild()->SetValue(std::to_string(src_img.height()).c_str());
+    root->FirstChildElement("size")->FirstChildElement("width")->FirstChild()->SetValue(std::to_string(src_img.width()).c_str());
+    root->FirstChildElement("size")->FirstChildElement("depth")->FirstChild()->SetValue(std::to_string(src_img.depth()/8-1).c_str());
+    for(int i = 0; i< objects.length(); i++){
+        object.FirstChildElement()->FirstChildElement("name")->FirstChild()->SetValue(objects[i].label.toStdString().c_str());
+        object.FirstChildElement()->FirstChildElement("bndbox")->FirstChildElement("xmin")->FirstChild()->SetValue(std::to_string(objects[i].x1).c_str());
+        object.FirstChildElement()->FirstChildElement("bndbox")->FirstChildElement("xmax")->FirstChild()->SetValue(std::to_string(objects[i].x2).c_str());
+        object.FirstChildElement()->FirstChildElement("bndbox")->FirstChildElement("ymin")->FirstChild()->SetValue(std::to_string(objects[i].y1).c_str());
+        object.FirstChildElement()->FirstChildElement("bndbox")->FirstChildElement("ymax")->FirstChild()->SetValue(std::to_string(objects[i].y2).c_str());
+        root->InsertEndChild(*object.FirstChild());
+    }
+    doc.SetTabSize(4);
+    doc.SaveFile(xml_path.toStdString().c_str());
+    return;
 }

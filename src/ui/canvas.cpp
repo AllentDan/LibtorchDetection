@@ -157,10 +157,11 @@ void Canvas::setScale(qreal new_scale)
 
 void Canvas::loadPixmap(QString new_pixmap_path)
 {
+    this->annotation_manager->src_img_path = new_pixmap_path;
+    this->annotation_manager->objects.clear();
     this->current_image = QPixmap(new_pixmap_path);
     QFileInfo info1(new_pixmap_path);
     QString xml_path = this->annotationDir + "/" +info1.baseName() + ".xml";
-//    qDebug() << xml_path;
     if (QFile::exists(xml_path)){
         annotation_manager->fromXml(xml_path);
     }

@@ -160,6 +160,7 @@ void labelTool::setAnntationDir(){
     if (!dirName.isNull()){
         this->annotationDir = dirName;
         canvas->annotationDir = dirName;
+        canvas->annotation_manager->annotation_dir = dirName;
     }
 }
 
@@ -171,6 +172,10 @@ void labelTool::loadLabels(){
     if (QFile::exists(label_path)){
         canvas->label_manager->fromTXT(label_path);
     }
+}
+
+void labelTool::saveAnnotation(){
+    annotation_manager.toXml();
 }
 
 void labelTool::initUI(){
@@ -189,4 +194,5 @@ void labelTool::initUI(){
     connect(ui->actionZoomOut, &QAction::triggered, [this](){ this->canvas->setScale(canvas->getScale()*0.9); });
     connect(ui->actionSetAnnotationDir, &QAction::triggered, this, &labelTool::setAnntationDir);
     connect(ui->actionLoadLabels, &QAction::triggered, this, &labelTool::loadLabels);
+    connect(ui->actionSave, &QAction::triggered, this, &labelTool::saveAnnotation);
 }
