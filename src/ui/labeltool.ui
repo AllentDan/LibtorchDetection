@@ -57,7 +57,7 @@
     <addaction name="separator"/>
     <addaction name="actionLoadDatasets"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_Dataset"/>
+    <addaction name="actionSaveDataset"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -319,7 +319,7 @@
     <string>Load Dataset</string>
    </property>
   </action>
-  <action name="actionSave_Dataset">
+  <action name="actionSaveDataset">
    <property name="icon">
     <iconset resource="icons.qrc">
      <normaloff>:/icons/export.png</normaloff>:/icons/export.png</iconset>
@@ -344,6 +344,9 @@
    </property>
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

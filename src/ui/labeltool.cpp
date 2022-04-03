@@ -38,8 +38,7 @@ void labelTool::readFiles(){
     return;
 }
 
-void labelTool::readDir(){
-    QString dirName = QFileDialog::getExistingDirectory(this, "open a dir", "D:\\AllentFiles\\data\\dataset");
+void labelTool::_readDir(QString dirName){
     if (!dirName.isNull() && !dirName.isEmpty()){
         QDir dir(dirName);
         QStringList images = dir.entryList(QStringList() << "*.jpg"<<"*.png"<<"*.bmp", QDir::Files);
@@ -55,6 +54,12 @@ void labelTool::readDir(){
         this->canvas->loadPixmap(this->file_names[this->cur_file_idx]);
         adjustFitWindow();
     }
+    return;
+}
+
+void labelTool::readDir(){
+    QString dirName = QFileDialog::getExistingDirectory(this, "open a dir", "D:\\AllentFiles\\data\\dataset");
+    _readDir(dirName);
     return;
 }
 
@@ -126,6 +131,8 @@ void labelTool::newLabelRequest(QString newLabel)
     if (!label_manager.hasLabel(newLabel)){
         QColor newColor = ColorManager::randomColor();
         label_manager.addLabel(newLabel, newColor);
+        QListWidgetItem *item = new QListWidgetItem(ColorManager::iconFromColor(newColor), newLabel);
+        ui->LabelList->addItem(item);
     }
 }
 
@@ -133,7 +140,11 @@ void labelTool::getNewRect(QRect rect)
 {
     QString label = _labelRequest();
     if (label=="") return;
-    annotation_manager.add(detObj({label, rect.left(), rect.top(), rect.right(), rect.bottom()}));
+    detObj obj = detObj({label, rect.left(), rect.top(), rect.right(), rect.bottom()});
+    annotation_manager.add(obj);
+    QColor color = label_manager[label];
+    QListWidgetItem *item = new QListWidgetItem(ColorManager::iconFromColor(color),obj.toString());
+    ui->AnnotationList->addItem(item);
 }
 
 
@@ -141,7 +152,7 @@ QString labelTool::_labelRequest()
 {
     QString curLabel = getCurrentLabel();
     if (curLabel==""){
-        LabelDialog dialog(this);
+        LabelDialog dialog(*canvas->label_manager, this);
         if (dialog.exec() == QDialog::Accepted) {
             QString newLabel = dialog.getLabel();
             // newLabel 也有可能是 "" ，说明dialog被点击了取消
@@ -178,6 +189,48 @@ void labelTool::saveAnnotation(){
     annotation_manager.toXml();
 }
 
+void labelTool::loadDatasets(){
+    QString dirName = QFileDialog::getExistingDirectory(this, "open a dir", "D:\\AllentFiles\\data\\dataset");
+    if (!(dirName +"/labels").isNull()){
+        this->annotationDir = dirName +"/labels";
+        canvas->annotationDir = dirName +"/labels";
+        canvas->annotation_manager->annotation_dir = dirName +"/labels";
+    }
+    if(QFile::exists(dirName + "/labels.txt")){
+        canvas->label_manager->fromTXT(dirName + "/labels.txt");
+        QStringList labels = canvas->label_manager->getLabels();
+        for(auto label: labels) {
+            QColor color = (*canvas->label_manager)[label];
+            QListWidgetItem *item = new QListWidgetItem(ColorManager::iconFromColor(color), label);
+            ui->LabelList->addItem(item);
+        }
+    }
+    _readDir(dirName +"/images");
+}
+
+void labelTool::saveDatasets(){
+//    QString dirName = QFileDialog::getExistingDirectory(this, "open a dir", "D:\\AllentFiles\\data\\dataset");
+//    if (!(dirName +"/labels").isNull()){
+//        this->annotationDir = dirName +"/labels";
+//        canvas->annotationDir = dirName +"/labels";
+//        canvas->annotation_manager->annotation_dir = dirName +"/labels";
+//    }
+//    if(QFile::exists(dirName + "/labels.txt")){
+//        canvas->label_manager->fromTXT(dirName + "/labels.txt");
+//    }
+//    _readDir(dirName +"/images");
+}
+
+void labelTool::reloadAnnotations(){
+    ui->AnnotationList->clear();
+    for (detObj obj : annotation_manager.objects) {
+        QColor color = label_manager[obj.label];
+        QListWidgetItem *item = new QListWidgetItem(ColorManager::iconFromColor(color),obj.toString());
+        ui->AnnotationList->addItem(item);
+    }
+}
+
+
 void labelTool::initUI(){
     connect(ui->actionOpenFiles, SIGNAL(triggered()), this, SLOT(readFiles()));
     connect(ui->actionOpenDir, SIGNAL(triggered()), this, SLOT(readDir()));
@@ -186,6 +239,7 @@ void labelTool::initUI(){
     connect(ui->FileList, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(provideFileContextMenu(const QPoint&)));
     connect(this->canvas, &Canvas::newRectangleAnnotated, this, &labelTool::getNewRect);
     connect(this->canvas, &Canvas::mouseMoved, this, &labelTool::reportMouseMoved);
+    connect(this->canvas, &Canvas::reloadAnnotations, this, &labelTool::reloadAnnotations);
 
     ui->actionNextImage->setEnabled(false);
     ui->actionPreviousImage->setEnabled(false);
@@ -195,4 +249,7 @@ void labelTool::initUI(){
     connect(ui->actionSetAnnotationDir, &QAction::triggered, this, &labelTool::setAnntationDir);
     connect(ui->actionLoadLabels, &QAction::triggered, this, &labelTool::loadLabels);
     connect(ui->actionSave, &QAction::triggered, this, &labelTool::saveAnnotation);
+    connect(ui->actionLoadDatasets, &QAction::triggered, this, &labelTool::loadDatasets);
+    connect(ui->actionSaveDataset, &QAction::triggered, this, &labelTool::saveDatasets);
+
 }

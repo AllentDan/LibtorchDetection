@@ -9,7 +9,7 @@ void LabelManager::addLabel(QString label, QColor color){
     label_color.insert(label, color);
 }
 
-bool LabelManager::hasLabel(QString label){
+bool LabelManager::hasLabel(QString label) const{
     return label_color.contains(label);
 }
 

@@ -8,16 +8,18 @@
 #include <QKeyEvent>
 #include <QtDebug>
 
-LabelDialog::LabelDialog(QWidget *parent) :
+#include "../managers/colormanager.h"
+
+LabelDialog::LabelDialog(const LabelManager& label_manager, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::LabelDialog)
 {
     ui->setupUi(this);
 
-//    for (auto label:labelManager.getLabels()){
-//        QListWidgetItem *item = new QListWidgetItem(ColorUtils::iconFromColor(label.color),label.label, ui->listWidget);
-//        ui->listWidget->addItem(item);
-//    }
+    for (auto label:label_manager.getLabels()){
+        QListWidgetItem *item = new QListWidgetItem(ColorManager::iconFromColor(label_manager[label]),label, ui->listWidget);
+        ui->listWidget->addItem(item);
+    }
 
     ui->lineEdit->setLabelListWidget(ui->listWidget);
 }

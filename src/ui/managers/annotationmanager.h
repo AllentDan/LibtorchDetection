@@ -12,6 +12,9 @@ struct detObj{
     int y1;
     int x2;
     int y2;
+    QString toString(){
+        return label+" (" +QString::number(x1)+", " +QString::number(y1)+" ), ("+QString::number(x2)+", " +QString::number(y2)+")";
+    }
 };
 
 class AnnotationManager

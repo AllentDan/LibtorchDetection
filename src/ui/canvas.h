@@ -28,6 +28,7 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
     // 这两个重载函数对于adjustSize()以及layout等是必须的
     QSize sizeHint() const override { return minimumSizeHint(); }
     QSize minimumSizeHint() const override;
@@ -36,6 +37,7 @@ signals:
     void mouseMoved(QPoint pos);
     void newRectangleAnnotated(QRect newRect);
     void removeRectRequest(int idx);
+    void reloadAnnotations();
 
 private:
     QPixmap current_image;

@@ -9,7 +9,8 @@ class LabelManager
 {
 public:
     LabelManager();
-    bool hasLabel(QString label);
+    bool hasLabel(QString label) const;
+    QStringList getLabels() const {return label_color.keys();}
     void addLabel(QString label, QColor color);
     QColor operator[](QString label) const { return label_color[label]; };
     void fromTXT(QString label_path);

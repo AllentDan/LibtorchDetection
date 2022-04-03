@@ -31,6 +31,7 @@ private:
     QString annotationDir = "";
     void initUI();
     QString _labelRequest();
+    void _readDir(QString dirName);
 
 private slots:
     void readFiles();
@@ -38,6 +39,9 @@ private slots:
     void setAnntationDir();
     void loadLabels();
     void saveAnnotation();
+    void loadDatasets();
+    void saveDatasets();
+    void reloadAnnotations();
     void file_list_row_clicked(int num);
     void getNewRect(QRect rect);
     void newLabelRequest(QString newLabel);

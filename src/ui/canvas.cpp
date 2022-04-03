@@ -111,6 +111,18 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event){
 }
 
 
+void Canvas::wheelEvent(QWheelEvent *event){
+    if (this->current_image.isNull()){
+        QWidget::wheelEvent(event);
+        return;
+    }
+    if(event->delta()>0){
+        setScale(getScale()*1.1);
+    }else{
+        setScale(getScale()*0.9);
+    }
+}
+
 void Canvas::mouseMoveEvent(QMouseEvent *event)
 {
     if (this->current_image.isNull()){
@@ -164,6 +176,7 @@ void Canvas::loadPixmap(QString new_pixmap_path)
     QString xml_path = this->annotationDir + "/" +info1.baseName() + ".xml";
     if (QFile::exists(xml_path)){
         annotation_manager->fromXml(xml_path);
+        emit reloadAnnotations();
     }
     adjustSize();
     update();

@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "labellineedit.h"
+#include "../managers/labelmanager.h"
 
 namespace Ui {
 class LabelDialog;
@@ -20,7 +21,7 @@ class LabelDialog : public QDialog
 
 public:
     // 该类从labelManager中获取所有 label 并显示在 listWidget 上
-    explicit LabelDialog(QWidget *parent = nullptr);
+    explicit LabelDialog(const LabelManager &label_manager, QWidget *parent = nullptr);
     ~LabelDialog();
 
     // 获取lineEdit中输入的label
