@@ -41,27 +41,55 @@ void Canvas::paintEvent(QPaintEvent *event){
     painter.drawPixmap(0,0, this->current_image);
     painter.setPen(QPen(Qt::white));
 
-    for (int i=0;i<annotation_manager->length();i++){
-        auto item = (*annotation_manager)[i];
-        QRect rect=QRect(item.x1, item.y1, item.x2 -item.x1, item.y2 -item.y1);
-        QString label=item.label;
-
-//        if (label_manager->hasLabel(label) && (*label_manager)[label].visible==false)
-//            continue;
-        if (label_manager->hasLabel(label) && (*label_manager)[label].isValid()){
-            QColor color = (*label_manager)[label];
-            drawRectAnnotation(painter, rect, color, 0.2, color, 0.5);
-        }else{
-            painter.drawRect(rect);
+    if(mode == DRAW){
+        for (int i=0;i<annotation_manager->length();i++){
+            auto item = (*annotation_manager)[i];
+            QRect rect=QRect(item.x1, item.y1, item.x2 -item.x1, item.y2 -item.y1);
+            QString label=item.label;
+            if (label_manager->hasLabel(label) && (*label_manager)[label].isValid()){
+                QColor color = (*label_manager)[label];
+                drawRectAnnotation(painter, rect, color, 0.2, color, 0.5);
+            }else{
+                painter.drawRect(rect);
+            }
+            QFont font("Helvetica"); font.setFamily("Times"); font.setPixelSize(15);
+            painter.setFont(font);
+            painter.drawText(rect.topLeft()-QPoint(0,15/2), label);
         }
+
+        // 正在绘制的矩形标注
+        if (curPoints.length()>0){
+            painter.drawRect(QRect(curPoints[0], curPoints[1]).normalized());
+        }
+    }else if (mode == SELECT){
+        // 已有的矩形标注，淡化显示，选中的除外
+        for (int i=0;i<annotation_manager->length();i++){
+            if (i==selectedIdx) continue;
+
+            auto item = (*annotation_manager)[i];
+            QRect rect=QRect(item.x1, item.y1, item.x2 -item.x1, item.y2 -item.y1);
+            QString label=item.label;
+            if (label_manager->hasLabel(label) && (*label_manager)[label].isValid()){
+                QColor color = (*label_manager)[label];
+                drawRectAnnotation(painter, rect, color, 0.1, color, 0.2);
+            }else{
+                painter.drawRect(rect);
+            }
+        }
+        // 选中的矩形标注，突出显示
+        auto selectedItem = (*annotation_manager)[selectedIdx];
+        QString selectedLabel = selectedItem.label;
+        QRect drawedRect = QRect(selectedItem.x1, selectedItem.y1, selectedItem.x2 -selectedItem.x1, selectedItem.y2 -selectedItem.y1);
+        painter.save();
+        QColor color = (*label_manager)[selectedLabel];
+        color.setAlphaF(0.2); QBrush brush(color); painter.setBrush(brush);
+        QPen pen(Qt::white); pen.setStyle(Qt::DashLine); painter.setPen(pen);
+        painter.drawRect(drawedRect);
+        painter.restore();
+
         QFont font("Helvetica"); font.setFamily("Times"); font.setPixelSize(15);
         painter.setFont(font);
-        painter.drawText(rect.topLeft()-QPoint(0,15/2), label);
-    }
-
-    // 正在绘制的矩形标注
-    if (curPoints.length()>0){
-        painter.drawRect(QRect(curPoints[0], curPoints[1]).normalized());
+        painter.drawText(drawedRect.topLeft()-QPoint(0,15/2), selectedLabel);
     }
     painter.end();
     return;

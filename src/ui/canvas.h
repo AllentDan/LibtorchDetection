@@ -11,6 +11,10 @@
 //namespace Ui { class Canvas; }
 //QT_END_NAMESPACE
 
+enum CanvasMode{
+    DRAW, SELECT
+};
+
 class Canvas : public QWidget
 {
     Q_OBJECT
@@ -22,6 +26,8 @@ public:
     QString annotationDir = "";
     LabelManager *label_manager;
     AnnotationManager *annotation_manager;
+    CanvasMode mode = DRAW;
+    int selectedIdx = -1;
 
 protected:
     void paintEvent(QPaintEvent*) override;

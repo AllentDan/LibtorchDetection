@@ -48,6 +48,8 @@ private slots:
     void adjustFitWindow();
 
     void provideFileContextMenu(const QPoint& pos);
+    void provideAnnotationContextMenu(const QPoint& pos);
+    void provideLabelContextMenu(const QPoint& pos);
     void reportMouseMoved(QPoint pos);
 
 };

@@ -30,6 +30,7 @@ SOURCES += \
     managers/annotationmanager.cpp \
     managers/colormanager.cpp \
     managers/labelmanager.cpp \
+    widgets/customlistwidget.cpp \
     widgets/labeldialog.cpp \
     widgets/labellineedit.cpp \
     widgets/labeldialog.cpp \
@@ -47,6 +48,7 @@ HEADERS += \
     managers/annotationmanager.h \
     managers/colormanager.h \
     managers/labelmanager.h \
+    widgets/customlistwidget.h \
     widgets/labeldialog.h \
     widgets/labellineedit.h \
     widgets/labeldialog.h \

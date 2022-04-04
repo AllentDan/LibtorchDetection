@@ -44,5 +44,8 @@
         <file>icons/pinned_dirty.svg</file>
         <file>icons/export.png</file>
         <file>icons/import.png</file>
+        <file>icons/labelTool.png</file>
+        <file>icons/testing.png</file>
+        <file>icons/training.png</file>
     </qresource>
 </RCC>

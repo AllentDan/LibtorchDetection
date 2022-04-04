@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include <QScrollArea>
+#include <QColorDialog>
 
 labelTool::labelTool(QWidget *parent)
     : QMainWindow(parent)
@@ -76,7 +77,6 @@ void labelTool::provideFileContextMenu(const QPoint& pos){
     int row = modelIdx.row();
 
     QMenu submenu;
-    submenu.addAction("Change Color");
     submenu.addAction("Delete");
     QAction* rightClickItem = submenu.exec(globalPos);
     if (rightClickItem){
@@ -87,6 +87,55 @@ void labelTool::provideFileContextMenu(const QPoint& pos){
             this->cur_file_idx = std::min(this->cur_file_idx, this->file_names.size()-1);
             this->canvas->loadPixmap(this->file_names[this->cur_file_idx]);
             adjustFitWindow();
+        }
+    }
+    return;
+}
+
+void labelTool::provideAnnotationContextMenu(const QPoint &pos)
+{
+    QPoint globalPos = ui->AnnotationList->mapToGlobal(pos);
+    QModelIndex modelIdx = ui->AnnotationList->indexAt(pos);
+    if (!modelIdx.isValid())return;
+    int row = modelIdx.row();
+
+    QMenu submenu;
+    submenu.addAction("Delete");
+    QAction* rightClickItem = submenu.exec(globalPos);
+    if (rightClickItem){
+        if (rightClickItem->text().contains("Delete")){
+            delete ui->AnnotationList->takeItem(row);
+            this->annotation_manager.objects.removeAt(row);
+            update();
+        }
+    }
+    return;
+}
+
+void labelTool::provideLabelContextMenu(const QPoint &pos)
+{
+    QPoint globalPos = ui->LabelList->mapToGlobal(pos);
+    QModelIndex modelIdx = ui->LabelList->indexAt(pos);
+    if (!modelIdx.isValid())return;
+    int row = modelIdx.row();
+    auto item = ui->LabelList->item(row);
+
+    QMenu submenu;
+    submenu.addAction("Change Color");
+    submenu.addAction("Delete");
+    QAction* rightClickItem = submenu.exec(globalPos);
+    if (rightClickItem){
+        if (rightClickItem->text().contains("Delete")){
+            delete ui->LabelList->takeItem(row);
+            this->label_manager.removeLabel(item->text());
+            update();
+        }else if (rightClickItem->text().contains("Change Color")){
+            QColor color = QColorDialog::getColor(Qt::white, this, "Choose Color");
+            if (color.isValid()){
+                label_manager.setColor(item->text(),color);
+                ui->LabelList->changeIconColorByIdx(row, color);
+                reloadAnnotations();
+            }
         }
     }
     return;
@@ -237,6 +286,24 @@ void labelTool::initUI(){
     ui->FileList->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
     connect(ui->FileList, SIGNAL(currentRowChanged(int)), this, SLOT(file_list_row_clicked(int)));
     connect(ui->FileList, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(provideFileContextMenu(const QPoint&)));
+
+    connect(ui->AnnotationList, &QListWidget::itemSelectionChanged, [this](){
+        auto items = ui->AnnotationList->selectedItems();
+        if (items.length()==0){//actually not working, has to inherit mousePress event in its custom widget
+            this->canvas->mode = DRAW;
+            this->canvas->selectedIdx = -1;
+        }else{
+            int idx = ui->AnnotationList->row(items[0]);
+            this->canvas->mode = SELECT;
+            this->canvas->selectedIdx = idx;
+        }
+        this->canvas->update();
+    });
+    ui->AnnotationList->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+    connect(ui->AnnotationList, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(provideAnnotationContextMenu(const QPoint&)));
+    ui->LabelList->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
+    connect(ui->LabelList, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(provideLabelContextMenu(const QPoint&)));
+
     connect(this->canvas, &Canvas::newRectangleAnnotated, this, &labelTool::getNewRect);
     connect(this->canvas, &Canvas::mouseMoved, this, &labelTool::reportMouseMoved);
     connect(this->canvas, &Canvas::reloadAnnotations, this, &labelTool::reloadAnnotations);
@@ -252,4 +319,18 @@ void labelTool::initUI(){
     connect(ui->actionLoadDatasets, &QAction::triggered, this, &labelTool::loadDatasets);
     connect(ui->actionSaveDataset, &QAction::triggered, this, &labelTool::saveDatasets);
 
+    connect(ui->actionTraining, &QAction::triggered, [this](){
+        ui->centralWidget->hide();
+        ui->AnnotationDock->hide();
+        ui->LabelDock->hide();
+        ui->FileDock->hide();
+        ui->toolBar->hide();
+    });
+    connect(ui->actionLabelTool, &QAction::triggered, [this](){
+        ui->centralWidget->show();
+        ui->AnnotationDock->show();
+        ui->LabelDock->show();
+        ui->FileDock->show();
+        ui->toolBar->show();
+    });
 }
