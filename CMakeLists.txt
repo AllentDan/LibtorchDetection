@@ -3,7 +3,7 @@ project(LibtorchDetection)
 
 SET(CMAKE_BUILD_TYPE "Debug")
 
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/home/SENSETIME/dongchunyu/dongchunyu/depends/libtorch181cu111")
+set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/path2libtorch")
 
 
 find_package(Torch REQUIRED)
