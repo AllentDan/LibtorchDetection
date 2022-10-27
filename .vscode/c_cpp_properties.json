@@ -4,7 +4,7 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/home/SENSETIME/dongchunyu/dongchunyu/depends/libtorch181cu111/**",
+                "${DEPEND_DIR}/libtorch-cxx11-1.10.2+cu113/**",
                 "/usr/local/include/opencv4/**"
             ],
             "defines": [],
