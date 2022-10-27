@@ -91,8 +91,9 @@ For libtorch, follow the official pytorch c++ tutorials [here](https://pytorch.o
 
 For opencv, follow the official opencv install steps [here](https://github.com/opencv/opencv).
 
-If you have already configured them both, congratulations!!! Download the pretrained weight [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/yolo4_tiny.pt) and a demo .pt file [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/detector.pt) into weights. Change the CMAKE_PREFIX_PATH to your own in CMakeLists.txt. Then just do the following:
-```
+If you have already configured them both, congratulations!!! Download the pretrained weight [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/yolo4_tiny.pt) and a demo .pt file [here](https://github.com/AllentDan/LibtorchDetection/releases/download/0.1/detector.pt) into weights. Then just do the following:
+```bash
+export Torch_DIR='/path/to/libtorch'
 cd build
 cmake ..
 make

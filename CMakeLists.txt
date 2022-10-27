@@ -3,7 +3,8 @@ project(LibtorchDetection)
 
 SET(CMAKE_BUILD_TYPE "Debug")
 
-set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/path2libtorch")
+# set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "/path2libtorch")
+set(Torch_DIR $ENV{Torch_DIR}/share/cmake/Torch)
 
 
 find_package(Torch REQUIRED)
